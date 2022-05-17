@@ -60,7 +60,7 @@ jQuery(function() {
     // Event resize
     $(window).on('resize', function(e) {
       clearTimeout(timer)
-      timer = setTimeout(function() { setupLineClamp($text)}, 100)
+      timer = setTimeout(function() { setupLineClamp($text)}, 400)
     })
   })
 });
