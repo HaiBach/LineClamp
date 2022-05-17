@@ -12,9 +12,6 @@
  */
 jQuery(function() {
   var $textJapan = $('.lineclamp-ja')
-  var lineClamp = 1
-  var endCharNum = 0
-  var ellipsis = '...'
   
   /** FUNCTION: SETUP LINE CLAMP */
   var setupLineClamp = function($text) {
@@ -23,8 +20,9 @@ jQuery(function() {
     
     var dataLineClamp = $text.data('lineclamp')
     var dataEndChar = $text.data('endchar')
-    lineClamp = dataLineClamp === undefined ? lineClamp : dataLineClamp
-    endCharNum = dataEndChar === undefined ? endCharNum : dataEndChar
+    var lineClamp = dataLineClamp !== undefined ? dataLineClamp : 1
+    var endCharNum = dataEndChar !== undefined ? dataEndChar : 0
+    var ellipsis = '...'
     
     // Reset the text content
     $text.text( text[0] )
