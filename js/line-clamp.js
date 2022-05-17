@@ -11,41 +11,28 @@
  * ellipsis: kí tự hiển thị ellipsis
  */
 jQuery(function() {
-  var $textJP = $('.lineclamp-ja')
+  var $textJapan = $('.lineclamp-ja')
   var lineClamp = 2
   var endCharNum = 2
   var ellipsis = '...'
-  var ghostClass = 'lineclamp-ja__replace'
   
   /** FUNCTION: SETUP LINE CLAMP */
   var setupLineClamp = function($text) {
     var result = ''
-    var text = $text.text()
+    var text = $text.data('text')
     
-    var $textGhost = $text.next('.' + ghostClass)
-    if (!$textGhost.length) {
-      $textGhost = $text.clone()
-        .addClass(ghostClass)
-        .attr('title', text)
-        
-      $text.after($textGhost)
-      $text.css('display', 'none')
-    }
-    
-    // Reset the textGhost content
-    $textGhost.text( text[0] )
+    // Reset the text content
+    $text.text( text[0] )
 
-    var ghostHeight = $textGhost.outerHeight()
-    var ghostMaxHeight = Math.ceil(ghostHeight * lineClamp)
+    var textHeight = $text.outerHeight()
+    var textMaxHeight = Math.ceil(textHeight * lineClamp)
     var textCur = ''
     var textSliceEnd = endCharNum == 0 ? '' : text.slice(-endCharNum)
-    var textHeight
 
     for (var i = 1; i < text.length; i++) {
       textCur = text.slice(0, i) + ellipsis + textSliceEnd
-      $textGhost.text(textCur)
-      textHeight = $textGhost.outerHeight()
-      console.log(textCur, i, textHeight, ghostMaxHeight)
+      $text.text(textCur)
+      textHeight = $text.outerHeight()
 
       // Check to stop the loop
       // Case : endloop
@@ -53,19 +40,19 @@ jQuery(function() {
         result = text
       }
       // Case : normal check
-      else if (textHeight > ghostMaxHeight) {
+      else if (textHeight > textMaxHeight) {
         result = text.slice(0, i - 1) + ellipsis + textSliceEnd
         break
       }
     }
-    $textGhost
-      .text(result)
-    // console.log('#1', result, ghostMaxHeight)
+    $text.text(result)
   }
 
-  $textJP.each(function() {
+  $textJapan.each(function() {
     var $text = $(this)
     var timer
+
+    $text.attr('data-text', $text.text())
     
     // Do first time
     setupLineClamp($text)
