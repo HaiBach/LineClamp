@@ -11,11 +11,11 @@
  * ellipsis: kí tự hiển thị ellipsis
  */
 jQuery(function() {
-  var $textJP = $('.text-jp')
+  var $textJP = $('.lineclamp-ja')
   var lineClamp = 2
   var endCharNum = 2
   var ellipsis = '...'
-  var ghostClass = 'text-jp__ghost'
+  var ghostClass = 'lineclamp-ja__replace'
   
   /** FUNCTION: SETUP LINE CLAMP */
   var setupLineClamp = function($text) {
