@@ -38,6 +38,7 @@ jQuery(function() {
     var textMaxHeight = Math.ceil(textHeight * lineClamp)
     var textCur = ''
 
+    // Setup the end character in text
     var textSliceEnd = ''
     if (endChar != '') {
       textSliceEnd = endChar
@@ -46,6 +47,9 @@ jQuery(function() {
       textSliceEnd = text.slice(-endCharNum)
     }
 
+    // Hidden text during setup
+    $text.css('visibility', 'hidden')
+
 
     for (var i = 1; i < text.length; i++) {
       textCur = text.slice(0, i) + ellipsis + textSliceEnd
@@ -53,17 +57,17 @@ jQuery(function() {
       textHeight = $text.outerHeight()
 
       // Check to stop the loop
-      // Case : endloop
+      // Case : normal check
       if (i == text.length - 1) {
         result = text
       }
-      // Case : normal check
+      // Case : endloop
       else if (textHeight > textMaxHeight) {
         result = text.slice(0, i - 1) + ellipsis + textSliceEnd
         break
       }
     }
-    $text.text(result)
+    $text.text(result).css('visibility', '')
   }
 
   $textJapan.each(function() {
