@@ -7,7 +7,8 @@
  *
  * BIẾN / VARIABLES
  * lineClamp: số dòng hiển thị
- * endCharNum: số lượng kí tự cuối cùng hiển thị
+ * endChar: (string) kí tự cuối cùng hiển thị, nằm kế bên ellipsis
+ * endChar: (number) số lượng kí tự cuối cùng hiển thị
  * ellipsis: kí tự hiển thị ellipsis
  */
 jQuery(function() {
@@ -21,8 +22,14 @@ jQuery(function() {
     var dataLineClamp = $text.data('lineclamp')
     var dataEndChar = $text.data('endchar')
     var lineClamp = dataLineClamp !== undefined ? dataLineClamp : 1
-    var endCharNum = dataEndChar !== undefined ? dataEndChar : 0
+    var endChar = (dataEndChar !== undefined) && (typeof(dataEndChar) == 'string') ? dataEndChar : ''
+    var endCharNum = (dataEndChar !== undefined) && (typeof(dataEndChar) == 'number')  ? dataEndChar : 0
     var ellipsis = '...'
+
+    // Setup endCharNum, priority for `endChar`
+    if (endChar != '') {
+      endCharNum = endChar.length
+    }
     
     // Reset the text content
     $text.text( text[0] )
@@ -30,7 +37,15 @@ jQuery(function() {
     var textHeight = $text.outerHeight()
     var textMaxHeight = Math.ceil(textHeight * lineClamp)
     var textCur = ''
-    var textSliceEnd = endCharNum == 0 ? '' : text.slice(-endCharNum)
+
+    var textSliceEnd = ''
+    if (endChar != '') {
+      textSliceEnd = endChar
+    }
+    else if(endCharNum != 0) {
+      textSliceEnd = text.slice(-endCharNum)
+    }
+
 
     for (var i = 1; i < text.length; i++) {
       textCur = text.slice(0, i) + ellipsis + textSliceEnd
